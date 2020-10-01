@@ -7,7 +7,7 @@
 <h1>Report</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" id="CreateNew">Create New</a>
 </p>
 
 
@@ -21,23 +21,24 @@
             }
         </select>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    ID
-                </th>
-                <th>
-                    Employee Name
-                </th>
-            </tr>
-        </thead>
-        <tbody id="EmpTableBody">
-            Chosse Department
-        </tbody>
-    </table>
+    <div id="EmpsTable">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Employee Name
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="EmpTableBody">
+            </tbody>
+        </table>
+    </div>
 </div>
-<input class="btn btn-info" type="button" value="Get Report" onclick="window.print()"/>
+<input class="btn btn-info" type="button" value="Get Report" id="GetReport" onclick="PrintReport()" />
 
 
 <script>
@@ -52,5 +53,16 @@
             $('#EmpTableBody').html(html)
         });
     }
+
+
+   
+    function PrintReport() {
+        $("#CreateNew").hide();
+        $("#GetReport").hide();
+        window.print();
+        $("#CreateNew").show();
+        $("#GetReport").show();
+        }
+
 </script>
 
