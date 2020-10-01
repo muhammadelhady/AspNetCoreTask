@@ -36,8 +36,9 @@ namespace TaskASPCore.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Employee model)
         {
+            
             await empolyeeRepo.AddEmployee(model);
-            return RedirectToAction("Inedx");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
