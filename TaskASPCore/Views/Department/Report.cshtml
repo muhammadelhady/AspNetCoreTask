@@ -1,0 +1,56 @@
+﻿
+
+@{
+    ViewData["Title"] = "Report";
+}
+
+<h1>Report</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<div id="print">
+    <div>
+        <select class="form-control" id="DeptId" name="DeptId" onchange="SearchByName(this)">
+            <option value="0">Select Department</option>
+            @foreach (var dept in ViewBag.Departments)
+            {
+                <option value="@dept.Id">@dept.Name</option>
+            }
+        </select>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Employee Name
+                </th>
+            </tr>
+        </thead>
+        <tbody id="EmpTableBody">
+            Chosse Department
+        </tbody>
+    </table>
+</div>
+<input class="btn btn-info" type="button" value="Get Report" onclick="window.print()"/>
+
+
+<script>
+    function SearchByName(txt) {
+        var txtValue = $(txt).val();
+
+        $.post('/department/GetEmployees', { dept_Id: txtValue }, function (response) {
+            var html = '';
+            for (var i = 0; i < response.length; i++) {
+                html += '<tr><td>' + response[i].id + '</td><td>' + response[i].name + '</td></tr>';
+            }
+            $('#EmpTableBody').html(html)
+        });
+    }
+</script>
+

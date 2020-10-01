@@ -1,0 +1,77 @@
+﻿@model IEnumerable<DAL.Entities.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section scripts
+{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+}
+<h1>Index</h1>
+
+<div>
+    <p>
+        <a asp-action="Create">Create New Employee</a>
+    </p>
+    <input type="text" onkeyup="SearchByName(this)" id="searchtxt" />
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                Department
+            </th>
+        </tr>
+    </thead>
+    <tbody id="EmpTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department.Name)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+
+    function SearchByName(txt) {
+        var txtValue = $(txt).val();
+        var empsNames = [];
+        $.post('/employee/filter', { textSerach: txtValue }, function (response) {
+            var html = '';
+
+            for (var i = 0; i < response.length; i++) {
+                html += '<tr><td>' + response[i].id + '</td><td>' + response[i].name + '</td><td>' + response[i].dept + '</td></tr>';
+                empsNames.push(response[i].name);
+            }
+            $('#EmpTableBody').html(html)
+        });
+        AutoCompelete(empsNames);
+    }
+
+    function AutoCompelete(empsNames) {
+       
+        $("#searchtxt").autocomplete({ source: empsNames });
+    }
+</script>
+
